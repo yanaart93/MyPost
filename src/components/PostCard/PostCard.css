@@ -1,0 +1,10 @@
+.postCard {
+    position: relative;
+	display: flex;
+	align-items: flex-start;
+	padding: 10px;
+	border-radius: 10px;
+	width: 300px;
+	height: 300px;
+}
+
