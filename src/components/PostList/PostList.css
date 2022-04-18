@@ -4,6 +4,7 @@
     justify-content:center;
 	flex-wrap: wrap;
 	gap: 16px;
+	background-image: url('/public/assets/fon.jpg') ;
 }
 
 @media (max-width: 880px) {
