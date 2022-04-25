@@ -1,4 +1,4 @@
-@import '../node_modules/normalize.css/normalize.css';
+
 
 * {
     box-sizing: inherit;
@@ -8,6 +8,7 @@ html {
 }
 body {
     font-family: 'Nunito', 'Arial', 'Helvetica', sans-serif;
+    background-image: url('/public/assets/fon.jpg') ;
 }
 
 appContainer {

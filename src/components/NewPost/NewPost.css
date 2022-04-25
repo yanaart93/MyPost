@@ -1,0 +1,45 @@
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+.title {
+    width: 250px;
+    height: 50px;
+    
+    
+}
+
+.text {
+    width: 250px;
+    height: 100px;
+   
+
+}
+
+.addBtn {
+    width: 150px;
+    padding: 10px;
+    background-color: orange;
+    border-radius: 30px;
+    color: white;
+    right: 0;
+    border: none;
+    cursor: pointer;
+}
+
+.addBtn:active {
+    opacity: 0.75;
+}
+
+input {
+    margin-bottom: 5px;
+}
+
+input:focus {
+    outline: none;
+}

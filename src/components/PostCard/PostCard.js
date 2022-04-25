@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import './PostCard.css'
-import { teal } from '@mui/material/colors'
+import { orange, teal } from '@mui/material/colors'
 import IconButton from '@mui/material/IconButton'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import DeleteIcon from '@mui/icons-material/Delete'
 import api from '../../utils/api'
-
+import { useParams, useNavigate } from 'react-router-dom'
 
 export const PostCard = ({ postText, isInFavorites, setFavorites }) => {
     const writeLS = (key, value) => {
@@ -22,21 +23,20 @@ export const PostCard = ({ postText, isInFavorites, setFavorites }) => {
         localStorage.setItem(key, JSON.stringify(filteredStorage))
     }
 
-
     const addFavorite = () => {
-        writeLS('favorites', postText._id)
+        writeLS('likes', postText._id)
         setFavorites((prevState) => [...prevState, postText._id])
         api.addLike(postText._id)
             .then((addedItem) => {
                 console.log(addedItem.likes.length)
             })
-            .catch(() => {
+            .catch((err) => {
                 console.log(err.message)
             })
     }
 
     const removeFavorite = () => {
-        removeLS('favorites', postText._id)
+        removeLS('likes', postText._id)
         setFavorites((prevState) =>
             prevState.filter((itemID) => postText._id !== itemID)
         )
@@ -44,8 +44,21 @@ export const PostCard = ({ postText, isInFavorites, setFavorites }) => {
             .then((addedItem) => {
                 console.log(addedItem.likes.length)
             })
-            .catch(() => {
-                console.log(err.message)
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    const navigate = useNavigate()
+
+    const deletePost = () => {
+        api.deletePost(postText._id)
+            .then((data) => {
+                alert('Пост удален')
+                navigate('/')
+            })
+            .catch((err) => {
+                alert(err + ' - Вы можете удалить только свой пост')
             })
     }
 
@@ -62,18 +75,23 @@ export const PostCard = ({ postText, isInFavorites, setFavorites }) => {
                     {postText.title}
                 </Typography>
 
-                <Typography color="text.secondary">
+                 <Typography color="text.secondary">
                     {postText.author.email}
-                </Typography>
+                </Typography> 
                 <br />
                 <Typography variant="body2">{postText.text}</Typography>
-                
+
                 <IconButton
                     onClick={isInFavorites ? removeFavorite : addFavorite}
                     sx={{ fontSize: 14 }}
                 >
-                    <FavoriteIcon sx={{color: isInFavorites ? teal[500] : null}} />
+                    <FavoriteIcon
+                        sx={{ color: isInFavorites ? orange[500] : null }}
+                    />
                     {postText.likes.length}
+                </IconButton>
+                <IconButton onClick={deletePost}>
+                    <DeleteIcon  />
                 </IconButton>
             </CardContent>
         </Card>
