@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {  useState } from 'react'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
@@ -8,9 +8,12 @@ import IconButton from '@mui/material/IconButton'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import DeleteIcon from '@mui/icons-material/Delete'
 import api from '../../utils/api'
-import { useParams, useNavigate } from 'react-router-dom'
+import {  useNavigate, Link } from 'react-router-dom'
+import { Grid, Stack } from '@mui/material'
 
 export const PostCard = ({ postText, isInFavorites, setFavorites }) => {
+    const [newLike, setNewLike] = useState(postText.likes.length)
+    
     const writeLS = (key, value) => {
         const storage = JSON.parse(localStorage.getItem(key)) || []
         storage.push(value)
@@ -28,10 +31,10 @@ export const PostCard = ({ postText, isInFavorites, setFavorites }) => {
         setFavorites((prevState) => [...prevState, postText._id])
         api.addLike(postText._id)
             .then((addedItem) => {
-                console.log(addedItem.likes.length)
+                setNewLike(addedItem.likes.length)
             })
             .catch((err) => {
-                console.log(err.message)
+                alert(err.message)
             })
     }
 
@@ -41,11 +44,11 @@ export const PostCard = ({ postText, isInFavorites, setFavorites }) => {
             prevState.filter((itemID) => postText._id !== itemID)
         )
         api.deleteLike(postText._id)
-            .then((addedItem) => {
-                console.log(addedItem.likes.length)
+            .then((removedItem) => {
+                setNewLike(removedItem.likes.length)
             })
             .catch((err) => {
-                console.log(err)
+                alert(err)
             })
     }
 
@@ -65,34 +68,54 @@ export const PostCard = ({ postText, isInFavorites, setFavorites }) => {
     return (
         <Card sx={{ minWidth: 275 }} className="postCard">
             <CardContent>
-                <Typography
-                    sx={{ fontSize: 18 }}
-                    color="teal"
-                    height="50px"
-                    fontWeight="bold"
-                    gutterBottom
-                >
-                    {postText.title}
-                </Typography>
-
-                 <Typography color="text.secondary">
-                    {postText.author.email}
-                </Typography> 
-                <br />
-                <Typography variant="body2">{postText.text}</Typography>
-
-                <IconButton
-                    onClick={isInFavorites ? removeFavorite : addFavorite}
-                    sx={{ fontSize: 14 }}
-                >
-                    <FavoriteIcon
-                        sx={{ color: isInFavorites ? orange[500] : null }}
-                    />
-                    {postText.likes.length}
-                </IconButton>
-                <IconButton onClick={deletePost}>
+                <Grid container direction="column">
+                    <Grid item>
+                        <Typography
+                            sx={{ fontSize: 18 }}
+                            color="teal"
+                            height="50px"
+                            fontWeight="bold"
+                            gutterBottom
+                        >
+                            <Link to={`posts/${postText._id}`}>
+                                {postText.title.length > 35 ? postText.title.slice(0, 36) + '...' : postText.title}
+                            </Link>
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="body2" height='110px' >{postText.text.length > 135 ? postText.text.slice(0, 136) + '...' : postText.text}</Typography>
+                    </Grid>
+                    <Grid item>
+                        <Stack
+                            direction="row"
+                            justifyContent="flex-start"
+                            alignItems="flex-start"
+                            spacing={0}
+                        >
+                            <IconButton
+                                onClick={
+                                    isInFavorites ? removeFavorite : addFavorite
+                                }
+                                sx={{ fontSize: 16 }}
+                            >
+                                <FavoriteIcon
+                                    sx={{
+                                        color: isInFavorites ? orange[500] : null,
+                                    }}
+                                />
+                                {newLike}
+                            </IconButton>
+                            <IconButton onClick={deletePost}>
                     <DeleteIcon  />
                 </IconButton>
+                            <Typography
+                                variant="body2"
+                                sx={{ textAlign: 'center', lineHeight: 3 }}
+                            >     
+                            </Typography>
+                        </Stack>
+                    </Grid>
+                </Grid>
             </CardContent>
         </Card>
     )

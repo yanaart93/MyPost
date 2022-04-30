@@ -1,27 +1,30 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import api from "../../utils/api";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
-import DeleteIcon from "@mui/icons-material/Delete";
+import React from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import api from '../../utils/api'
+import Chip from '@mui/material/Chip'
+import Stack from '@mui/material/Stack'
+import DeleteIcon from '@mui/icons-material/Delete'
 
-export default function DeleteButton() {
-  const handleClick = () => {
-    console.info("You clicked the Chip.");
-  };
+export const DeleteButton = () => {
+    const handleClick = () => {
+        const navigate = useNavigate()
 
-  const handleDelete = () => {
-    console.info("You clicked the delete icon.");
-  };
+        api.deletePost(postText._id)
+            .then((data) => {
+                alert('Пост удален')
+                navigate('/')
+            })
+            .catch((err) => {
+                alert(err + ' - Вы можете удалить только свой пост')
+            })
+    }
 
-  return (
-    <Stack direction="row">
-      <Chip
-        onClick={handleClick}
-        onDelete={handleDelete}
-        deleteIcon={<DeleteIcon />}
-        variant="outlined"
-      />
-    </Stack>
-  );
+    return (
+        <Stack direction="row">
+            <DeleteIcon
+                onClick={handleClick}
+                variant="outlined"
+            />
+        </Stack>
+    )
 }

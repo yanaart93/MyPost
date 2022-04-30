@@ -1,7 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
-import "./NewPost.css";
+import { Button, Grid, TextField } from '@mui/material'
+
+
 
 export const NewPost = () => {
   const navigate = useNavigate();
@@ -23,21 +25,40 @@ export const NewPost = () => {
 
   return (
     <div className="addPost">
-      <form onSubmit={handleSubmit}>
-        <input
-          name="title"
-          placeholder="Заголовок"
-          className="title"
-          required
-        ></input>
-        <input
-          name="text"
-          placeholder="Текст"
-          className="text"
-          required
-        ></input>
-        <button className="addBtn">Добавить пост</button>
-      </form>
-    </div>
-  );
-};
+    <form onSubmit={handleSubmit}>
+        <Grid
+            container
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+        >
+            <Grid item>
+                <TextField
+                    label="Заголовок"
+                    name="title"
+                    variant="outlined"
+                />
+            </Grid>
+            <Grid item>
+                <TextField
+                    label="Текст"
+                    name="text"
+                    variant="outlined"
+                />
+            </Grid>
+            <Grid item>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                >
+                    Добавить пост
+                </Button>
+            </Grid>
+        </Grid>
+    </form>
+</div>
+)
+}

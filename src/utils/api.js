@@ -10,13 +10,14 @@ class Api {
     this._token = token;
   }
 
-  getPosts() {
-    return fetch(`${this._url}/posts`, {
-      headers: {
-        authorization: `Bearer ${this._token}`,
-      },
-    }).then(onResponse);
-  }
+  getPosts(postID) {
+    const requestUrl = postID ? `${this._url}/posts/${postID}` : `${this._url}/posts/`
+    return fetch(requestUrl, {
+        headers: {
+            authorization: `Bearer ${this._token}`,
+        },
+    }).then(onResponse)
+}
 
   addPost(post) {
     return fetch(`${this._url}/posts`, {
@@ -44,6 +45,16 @@ class Api {
         authorization: `Bearer ${this._token}`,
       },
     }).then(onResponse);
+  }
+  
+  getUserById(userID) {
+    const requestUrl = userID ? `${this._url}/users/${userID}` : `${this._url}/users/`
+    return fetch(requestUrl, {
+        method: 'GET',
+        headers: {
+            authorization: `Bearer ${this._token}`,
+        },
+    }).then(onResponse)
   }
 
   addLike(itemID) {
