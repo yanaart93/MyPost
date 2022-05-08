@@ -1,17 +1,17 @@
 import * as React from "react";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { orange, teal, yellow } from "@mui/material/colors";
+import {   orange, teal,   } from "@mui/material/colors";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./Pagination.css";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: orange[700],
+      main: orange[300],
     },
     secondary: {
-      main: teal[900],
+      main: teal[700],
     },
   },
 });
@@ -22,12 +22,12 @@ export default function PaginationRounded({
   postsPerPage,
   setCurrentPage,
 }) {
-  const handleChange = (event, value) => {
+  const handleChange = ( event,value) => {
     setCurrentPage(value);
   };
 
   const pagesNumber = Math.ceil(totalPosts / postsPerPage);
-  console.log(totalPosts);
+  
 
   return (
     <div className="pagination">
